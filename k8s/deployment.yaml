@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: homelab-next-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: homelab-next-app
+  template:
+    metadata:
+      labels:
+        app: homelab-next-app
+    spec:
+      containers:
+      - name: homelab-next-app
+        image: fullstackgarcia/homelab-next-app:latest
+        ports:
+        - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: homelab-next-app-service
+spec:
+  type: NodePort
+  selector:
+    app: homelab-next-app
+  ports:
+  - port: 3000
+    targetPort: 3000
+    nodePort: 30300
